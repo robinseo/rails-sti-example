@@ -9,6 +9,10 @@ class ArticlesController < ApplicationController
     instance_variable_set(plural_resource_variable, resources)
   end
 
+  def new
+    instance_variable_set(resource_variable, resource_class.new)
+  end
+
   private
   def resource_name
     @resource_name ||= self.controller_name.singularize
@@ -32,6 +36,10 @@ class ArticlesController < ApplicationController
 
   def order_args
     :created_at
+  end
+
+  def resource_variable
+    "@#{resource_name}"
   end
 
   def plural_resource_variable

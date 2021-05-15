@@ -1,0 +1,6 @@
+<%= form_with model: @resource_class.new do |form| %>
+  <%= form.text_field :title %>
+  <%= form.rich_text_area :content %>
+  <%= form.hidden_field :category, value: @resource_name %>
+  <%= form.submit %>
+<% end %>

@@ -1,4 +1,4 @@
 class Article < ApplicationRecord
   has_rich_text :content
-  enum type: {blog: 0, help: 1, review: 2}
+  enum categories: {blog: 0, review: 1}
 end

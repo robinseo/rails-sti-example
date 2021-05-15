@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2021_05_02_085008) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
-    t.integer "type"
+    t.integer "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
