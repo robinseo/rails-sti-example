@@ -1,6 +1,6 @@
 <h1>list of <%= controller_name %></h1>
 <div class="w-100 d-flex justify-content-end pb-3">
-  <%= link_to 'create', new_blog_path, class: "btn btn-primary" %>
+  <%= link_to 'create', "#{controller_name}/new", class: "btn btn-primary" %>
 </div>
 
 <table class="table">
@@ -8,16 +8,20 @@
   <tr>
     <th scope="col">id</th>
     <th scope="col">Title</th>
-    <th scope="col">Thumbnail</th>
     <th scope="col">Content</th>
+    <th scope="col">Category</th>
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <th scope="row">1</th>
-    <td>foo</td>
-    <td>bar</td>
-    <td>foobar</td>
-  </tr>
+  <% @resources.each do |resource| %>
+    <tr>
+        <th scope="row"><%= resource.id %></th>
+        <td>
+          <%= link_to resource.title, "#{controller_name}/#{resource.id}" %>
+        </td>
+        <td><%= resource.content %></td>
+        <td><%= resource.category %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>

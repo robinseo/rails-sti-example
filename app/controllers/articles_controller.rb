@@ -1,19 +1,38 @@
 class ArticlesController < ApplicationController
-  def index
-    resources = base_index_query
-                    .where(query_params)
-                    .order(order_args)
-                    .page(page_params[:page])
-                    .per(page_params[:per])
+  before_action :find_resource, only: [:show, :edit]
 
-    instance_variable_set(plural_resource_variable, resources)
+  def index
+    @resources = resource_class
+                     .where(query_params)
+                     .order(order_params)
+                     .page(page_params[:page])
+                     .per(page_params[:per] || 200)
+
   end
 
+  def show; end
+
   def new
-    instance_variable_set(resource_variable, resource_class.new)
+    resource_class
+  end
+
+  def create
+    resource_class.create(resource_params)
+    redirect_to action: :index
+  end
+
+  def edit; end
+
+  def update
+
+  end
+
+  def destroy
+
   end
 
   private
+
   def resource_name
     @resource_name ||= self.controller_name.singularize
   end
@@ -22,11 +41,19 @@ class ArticlesController < ApplicationController
     @resource_class ||= resource_name.classify.constantize
   end
 
-  def base_index_query
-    resource_class.all
+  def resource_variable
+    "@#{resource_name}"
+  end
+
+  def plural_resource_variable
+    "@#{resource_name.pluralize}"
   end
 
   def query_params
+    {}
+  end
+
+  def order_params
     {}
   end
 
@@ -34,16 +61,12 @@ class ArticlesController < ApplicationController
     params.permit(:page, :per)
   end
 
-  def order_args
-    :created_at
+  def find_resource
+    @resource = resource_class.find(params[:id])
   end
 
-  def resource_variable
-    "@#{resource_name}"
-  end
-
-  def plural_resource_variable
-    "@#{resource_name.pluralize}"
+  def resource_params
+    params.require(resource_name).permit(:title, :content, :category)
   end
 
 end
